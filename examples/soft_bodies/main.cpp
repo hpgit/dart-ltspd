@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -33,8 +33,6 @@
 #include <osgViewer/Viewer>
 
 #include <dart/dart.hpp>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/utils.hpp>
 
 using namespace dart::dynamics;
 
@@ -209,8 +207,8 @@ int main()
 {
   using namespace dart::dynamics;
 
-  dart::simulation::WorldPtr world = dart::utils::SkelParser::readWorld(
-      "dart://sample/skel/softBodies.skel");
+  dart::simulation::WorldPtr world
+      = dart::io::SkelParser::readWorld("dart://sample/skel/softBodies.skel");
 
   osg::ref_ptr<RecordingWorld> node = new RecordingWorld(world);
 

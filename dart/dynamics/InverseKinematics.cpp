@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -34,7 +34,7 @@
 #include "dart/dynamics/BodyNode.hpp"
 #include "dart/dynamics/DegreeOfFreedom.hpp"
 #include "dart/dynamics/SimpleFrame.hpp"
-#include "dart/optimizer/GradientDescentSolver.hpp"
+#include "dart/optimization/GradientDescentSolver.hpp"
 
 namespace dart {
 namespace dynamics {
@@ -149,8 +149,8 @@ bool InverseKinematics::solveAndApply(
 }
 
 //==============================================================================
-static std::shared_ptr<optimizer::Function> cloneIkFunc(
-    const std::shared_ptr<optimizer::Function>& _function,
+static std::shared_ptr<optimization::Function> cloneIkFunc(
+    const std::shared_ptr<optimization::Function>& _function,
     InverseKinematics* _ik)
 {
   std::shared_ptr<InverseKinematics::Function> ikFunc
@@ -190,7 +190,8 @@ InverseKinematicsPtr InverseKinematics::clone(JacobianNode* _newNode) const
 
   newIK->setSolver(mSolver->clone());
 
-  const std::shared_ptr<optimizer::Problem>& newProblem = newIK->getProblem();
+  const std::shared_ptr<optimization::Problem>& newProblem
+      = newIK->getProblem();
   newProblem->setObjective(cloneIkFunc(mProblem->getObjective(), newIK.get()));
 
   newProblem->removeAllEqConstraints();
@@ -436,8 +437,9 @@ void InverseKinematics::ErrorMethod::clearCache()
 
 //==============================================================================
 InverseKinematics::TaskSpaceRegion::UniqueProperties::UniqueProperties(
-    bool computeErrorFromCenter)
-  : mComputeErrorFromCenter(computeErrorFromCenter)
+    bool computeErrorFromCenter, SimpleFramePtr referenceFrame)
+  : mComputeErrorFromCenter(computeErrorFromCenter),
+    mReferenceFrame(std::move(referenceFrame))
 {
   // Do nothing
 }
@@ -508,11 +510,17 @@ Eigen::Vector6d InverseKinematics::TaskSpaceRegion::computeError()
   // valid constraint manifold faster than computing it from the edge of the
   // Task Space Region.
 
+  const Frame* referenceFrame = mTaskSpaceP.mReferenceFrame.get();
+  if (referenceFrame == nullptr)
+    referenceFrame = mIK->getTarget()->getParentFrame();
+  assert(referenceFrame != nullptr);
+
   // Use the target's transform with respect to its reference frame
-  const Eigen::Isometry3d& targetTf = mIK->getTarget()->getRelativeTransform();
+  const Eigen::Isometry3d targetTf
+      = mIK->getTarget()->getTransform(referenceFrame);
   // Use the actual transform with respect to the target's reference frame
-  const Eigen::Isometry3d& actualTf
-      = mIK->getNode()->getTransform(mIK->getTarget()->getParentFrame());
+  const Eigen::Isometry3d actualTf
+      = mIK->getNode()->getTransform(referenceFrame);
 
   // ^ This scheme makes it so that the bounds are expressed in the reference
   // frame of the target
@@ -521,11 +529,11 @@ Eigen::Vector6d InverseKinematics::TaskSpaceRegion::computeError()
   if (mIK->hasOffset())
     p_error += actualTf.linear() * mIK->getOffset();
 
-  Eigen::Matrix3d R_error = actualTf.linear() * targetTf.linear().transpose();
+  const Eigen::Matrix3d R_error
+      = actualTf.linear() * targetTf.linear().transpose();
 
   Eigen::Vector6d displacement;
-  displacement.head<3>() = math::matrixToEulerXYZ(R_error);
-  displacement.tail<3>() = p_error;
+  displacement << math::matrixToEulerXYZ(R_error), p_error;
 
   Eigen::Vector6d error;
   const Eigen::Vector6d& min = mErrorP.mBounds.first;
@@ -570,11 +578,10 @@ Eigen::Vector6d InverseKinematics::TaskSpaceRegion::computeError()
   if (error.norm() > mErrorP.mErrorLengthClamp)
     error = error.normalized() * mErrorP.mErrorLengthClamp;
 
-  if (!mIK->getTarget()->getParentFrame()->isWorld())
+  if (!referenceFrame->isWorld())
   {
     // Transform the error term into the world frame if it's not already
-    const Eigen::Isometry3d& R
-        = mIK->getTarget()->getParentFrame()->getWorldTransform();
+    const Eigen::Isometry3d& R = referenceFrame->getWorldTransform();
     error.head<3>() = R.linear() * error.head<3>();
     error.tail<3>() = R.linear() * error.tail<3>();
   }
@@ -593,6 +600,20 @@ void InverseKinematics::TaskSpaceRegion::setComputeFromCenter(
 bool InverseKinematics::TaskSpaceRegion::isComputingFromCenter() const
 {
   return mTaskSpaceP.mComputeErrorFromCenter;
+}
+
+//==============================================================================
+void InverseKinematics::TaskSpaceRegion::setReferenceFrame(
+    SimpleFramePtr referenceFrame)
+{
+  mTaskSpaceP.mReferenceFrame = std::move(referenceFrame);
+}
+
+//==============================================================================
+ConstSimpleFramePtr InverseKinematics::TaskSpaceRegion::getReferenceFrame()
+    const
+{
+  return mTaskSpaceP.mReferenceFrame;
 }
 
 //==============================================================================
@@ -1406,19 +1427,19 @@ const std::vector<int>& InverseKinematics::getDofMap() const
 
 //==============================================================================
 void InverseKinematics::setObjective(
-    const std::shared_ptr<optimizer::Function>& _objective)
+    const std::shared_ptr<optimization::Function>& _objective)
 {
   mObjective = _objective;
 }
 
 //==============================================================================
-const std::shared_ptr<optimizer::Function>& InverseKinematics::getObjective()
+const std::shared_ptr<optimization::Function>& InverseKinematics::getObjective()
 {
   return mObjective;
 }
 
 //==============================================================================
-std::shared_ptr<const optimizer::Function> InverseKinematics::getObjective()
+std::shared_ptr<const optimization::Function> InverseKinematics::getObjective()
     const
 {
   return mObjective;
@@ -1426,20 +1447,20 @@ std::shared_ptr<const optimizer::Function> InverseKinematics::getObjective()
 
 //==============================================================================
 void InverseKinematics::setNullSpaceObjective(
-    const std::shared_ptr<optimizer::Function>& _nsObjective)
+    const std::shared_ptr<optimization::Function>& _nsObjective)
 {
   mNullSpaceObjective = _nsObjective;
 }
 
 //==============================================================================
-const std::shared_ptr<optimizer::Function>&
+const std::shared_ptr<optimization::Function>&
 InverseKinematics::getNullSpaceObjective()
 {
   return mNullSpaceObjective;
 }
 
 //==============================================================================
-std::shared_ptr<const optimizer::Function>
+std::shared_ptr<const optimization::Function>
 InverseKinematics::getNullSpaceObjective() const
 {
   return mNullSpaceObjective;
@@ -1489,13 +1510,14 @@ const InverseKinematics::Analytical* InverseKinematics::getAnalytical() const
 }
 
 //==============================================================================
-const std::shared_ptr<optimizer::Problem>& InverseKinematics::getProblem()
+const std::shared_ptr<optimization::Problem>& InverseKinematics::getProblem()
 {
   return mProblem;
 }
 
 //==============================================================================
-std::shared_ptr<const optimizer::Problem> InverseKinematics::getProblem() const
+std::shared_ptr<const optimization::Problem> InverseKinematics::getProblem()
+    const
 {
   return mProblem;
 }
@@ -1517,7 +1539,7 @@ void InverseKinematics::resetProblem(bool _clearSeeds)
 
 //==============================================================================
 void InverseKinematics::setSolver(
-    const std::shared_ptr<optimizer::Solver>& _newSolver)
+    const std::shared_ptr<optimization::Solver>& _newSolver)
 {
   mSolver = _newSolver;
   if (nullptr == mSolver)
@@ -1527,13 +1549,13 @@ void InverseKinematics::setSolver(
 }
 
 //==============================================================================
-const std::shared_ptr<optimizer::Solver>& InverseKinematics::getSolver()
+const std::shared_ptr<optimization::Solver>& InverseKinematics::getSolver()
 {
   return mSolver;
 }
 
 //==============================================================================
-std::shared_ptr<const optimizer::Solver> InverseKinematics::getSolver() const
+std::shared_ptr<const optimization::Solver> InverseKinematics::getSolver() const
 {
   return mSolver;
 }
@@ -1669,7 +1691,7 @@ InverseKinematics::Objective::Objective(InverseKinematics* _ik) : mIK(_ik)
 }
 
 //==============================================================================
-optimizer::FunctionPtr InverseKinematics::Objective::clone(
+optimization::FunctionPtr InverseKinematics::Objective::clone(
     InverseKinematics* _newIK) const
 {
   return std::make_shared<Objective>(_newIK);
@@ -1736,7 +1758,7 @@ InverseKinematics::Constraint::Constraint(InverseKinematics* _ik) : mIK(_ik)
 }
 
 //==============================================================================
-optimizer::FunctionPtr InverseKinematics::Constraint::clone(
+optimization::FunctionPtr InverseKinematics::Constraint::clone(
     InverseKinematics* _newIK) const
 {
   return std::make_shared<Constraint>(_newIK);
@@ -1789,7 +1811,7 @@ void InverseKinematics::initialize()
   setObjective(nullptr);
   setNullSpaceObjective(nullptr);
 
-  mProblem = std::make_shared<optimizer::Problem>();
+  mProblem = std::make_shared<optimization::Problem>();
   resetProblem();
 
   // The default error method is the one based on Task Space Regions
@@ -1812,8 +1834,8 @@ void InverseKinematics::initialize()
   useChain();
 
   // Default to the native DART gradient descent solver
-  std::shared_ptr<optimizer::GradientDescentSolver> solver
-      = std::make_shared<optimizer::GradientDescentSolver>(mProblem);
+  std::shared_ptr<optimization::GradientDescentSolver> solver
+      = std::make_shared<optimization::GradientDescentSolver>(mProblem);
   solver->setStepSize(1.0);
   mSolver = solver;
 }

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -34,8 +34,6 @@
 #define DART_EXAMPLE_OSG_OSGATLASSIMBICON_ATLASSIMBICONWORLDNODE_HPP_
 
 #include <dart/dart.hpp>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/utils.hpp>
 
 #include "Controller.hpp"
 

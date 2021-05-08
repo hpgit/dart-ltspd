@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -33,7 +33,6 @@
 #include <random>
 
 #include <dart/dart.hpp>
-#include <dart/gui/gui.hpp>
 
 const double default_shape_density = 1000;  // kg/m^3
 const double default_shape_height = 0.1;    // m
@@ -225,7 +224,7 @@ protected:
   {
     for (std::size_t i = 0; i < mJointConstraints.size(); ++i)
     {
-      const dart::constraint::JointConstraintPtr& constraint
+      const dart::dynamics::JointConstraintPtr& constraint
           = mJointConstraints[i];
 
       if (constraint->getBodyNode1()->getSkeleton() == skel
@@ -250,7 +249,7 @@ protected:
 
   /// History of the active JointConstraints so that we can properly delete them
   /// when a Skeleton gets removed
-  std::vector<dart::constraint::JointConstraintPtr> mJointConstraints;
+  std::vector<dart::dynamics::JointConstraintPtr> mJointConstraints;
 
   /// A blueprint Skeleton that we will use to spawn balls
   SkeletonPtr mOriginalBall;

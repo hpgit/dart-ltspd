@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -53,6 +53,7 @@ class Skeleton;
 class DegreeOfFreedom;
 
 /// class Joint
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_BEGIN
 class Joint : public virtual common::Subject,
               public virtual common::VersionCounter,
               public common::EmbedProperties<Joint, detail::JointProperties>
@@ -1073,6 +1074,7 @@ public:
   // To get byte-aligned Eigen vectors
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_END
 
 } // namespace dynamics
 } // namespace dart

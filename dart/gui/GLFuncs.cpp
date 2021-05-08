@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -46,11 +46,6 @@
 
 namespace dart {
 namespace gui {
-
-void drawStringOnScreen(float x, float y, const std::string& s, bool bigFont)
-{
-  glut::drawStringOnScreen(x, y, s, bigFont);
-}
 
 // draw a 3D arrow starting from pt along dir, the arrowhead is on the other end
 void drawArrow3D(

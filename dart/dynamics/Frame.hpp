@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -53,6 +53,7 @@ namespace dynamics {
 /// Entity class is inherited by using virtual inheritence to solve the
 /// so-called "diamond problem". Because of that, the Entity's constructor will
 /// be called directly by the most derived class's constructor.
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_BEGIN
 class Frame : public virtual Entity
 {
 public:
@@ -378,6 +379,7 @@ public:
   // To get byte-aligned Eigen vectors
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_END
 
 } // namespace dynamics
 } // namespace dart

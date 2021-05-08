@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -35,8 +35,7 @@
 #include <iostream>
 
 #include <dart/dart.hpp>
-#include <dart/gui/gui.hpp>
-#include <dart/utils/utils.hpp>
+#include <dart/io/io.hpp>
 
 using namespace dart;
 using namespace dynamics;
@@ -47,7 +46,7 @@ int main(int argc, char* argv[])
   // load a skeleton file
   // create and initialize the world
   dart::simulation::WorldPtr myWorld
-      = utils::SkelParser::readWorld("dart://sample/skel/fullbody1.skel");
+      = io::SkelParser::readWorld("dart://sample/skel/fullbody1.skel");
   assert(myWorld != nullptr);
 
   Eigen::Vector3d gravity(0.0, -9.81, 0.0);

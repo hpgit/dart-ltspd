@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -37,7 +37,7 @@
 namespace dart {
 namespace dynamics {
 
-#if HAVE_OCTOMAP
+#if DART_HAVE_OCTOMAP
 
 namespace {
 
@@ -49,7 +49,7 @@ Eigen::Vector3d toVector3d(const octomap::point3d& point)
 
 } // namespace
 
-#endif // HAVE_OCTOMAP
+#endif // DART_HAVE_OCTOMAP
 
 //==============================================================================
 PointCloudShape::PointCloudShape(double visualSize)
@@ -109,7 +109,7 @@ void PointCloudShape::setPoint(const std::vector<Eigen::Vector3d>& points)
   incrementVersion();
 }
 
-#if HAVE_OCTOMAP
+#if DART_HAVE_OCTOMAP
 //==============================================================================
 void PointCloudShape::setPoints(octomap::Pointcloud& pointCloud)
 {

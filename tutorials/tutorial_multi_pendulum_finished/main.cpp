@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -31,7 +31,6 @@
  */
 
 #include <dart/dart.hpp>
-#include <dart/gui/gui.hpp>
 
 const double default_height = 1.0; // m
 const double default_width = 0.2;  // m
@@ -156,8 +155,8 @@ public:
     // Attach the last link to the world
     Eigen::Vector3d location
         = tip->getTransform() * Eigen::Vector3d(0.0, 0.0, default_height);
-    mBallConstraint = std::make_shared<dart::constraint::BallJointConstraint>(
-        tip, location);
+    mBallConstraint
+        = std::make_shared<dart::dynamics::BallJointConstraint>(tip, location);
     mWorld->getConstraintSolver()->addConstraint(mBallConstraint);
   }
 
@@ -325,7 +324,7 @@ protected:
   SkeletonPtr mPendulum;
 
   /// Pointer to the ball constraint that we will be turning on and off
-  dart::constraint::BallJointConstraintPtr mBallConstraint;
+  dart::dynamics::BallJointConstraintPtr mBallConstraint;
 
   /// Number of iterations before clearing a force entry
   std::vector<int> mForceCountDown;

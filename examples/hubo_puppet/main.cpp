@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -31,15 +31,12 @@
  */
 
 #include <dart/dart.hpp>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/urdf/urdf.hpp>
-#include <dart/utils/utils.hpp>
 
 using namespace dart::math;
 using namespace dart::dynamics;
 using namespace dart::simulation;
 
-class RelaxedPosture : public dart::optimizer::Function
+class RelaxedPosture : public dart::optimization::Function
 {
 public:
   RelaxedPosture(
@@ -884,7 +881,7 @@ public:
     mPosture = std::dynamic_pointer_cast<RelaxedPosture>(
         mHubo->getIK(true)->getObjective());
 
-    mBalance = std::dynamic_pointer_cast<dart::constraint::BalanceConstraint>(
+    mBalance = std::dynamic_pointer_cast<dart::dynamics::BalanceConstraint>(
         mHubo->getIK(true)->getProblem()->getEqConstraint(1));
 
     mOptimizationKey = 'r';
@@ -1034,7 +1031,7 @@ public:
 
         if (mBalance)
           mBalance->setErrorMethod(
-              dart::constraint::BalanceConstraint::OPTIMIZE_BALANCE);
+              dart::dynamics::BalanceConstraint::OPTIMIZE_BALANCE);
 
         return true;
       }
@@ -1049,7 +1046,7 @@ public:
 
         if (mBalance)
           mBalance->setErrorMethod(
-              dart::constraint::BalanceConstraint::FROM_CENTROID);
+              dart::dynamics::BalanceConstraint::FROM_CENTROID);
 
         return true;
       }
@@ -1142,7 +1139,7 @@ protected:
 
   std::shared_ptr<RelaxedPosture> mPosture;
 
-  std::shared_ptr<dart::constraint::BalanceConstraint> mBalance;
+  std::shared_ptr<dart::dynamics::BalanceConstraint> mBalance;
 
   char mOptimizationKey;
 
@@ -1174,7 +1171,7 @@ SkeletonPtr createGround()
 
 SkeletonPtr createHubo()
 {
-  dart::utils::DartLoader loader;
+  dart::io::DartLoader loader;
   loader.addPackageDirectory("drchubo", DART_DATA_PATH "/urdf/drchubo");
   SkeletonPtr hubo
       = loader.parseSkeleton(DART_DATA_PATH "/urdf/drchubo/drchubo.urdf");
@@ -1418,8 +1415,8 @@ void enableDragAndDrops(dart::gui::osg::Viewer& viewer, const SkeletonPtr& hubo)
 
 void setupWholeBodySolver(const SkeletonPtr& hubo)
 {
-  std::shared_ptr<dart::optimizer::GradientDescentSolver> solver
-      = std::dynamic_pointer_cast<dart::optimizer::GradientDescentSolver>(
+  std::shared_ptr<dart::optimization::GradientDescentSolver> solver
+      = std::dynamic_pointer_cast<dart::optimization::GradientDescentSolver>(
           hubo->getIK(true)->getSolver());
 
   std::size_t nDofs = hubo->getNumDofs();
@@ -1447,12 +1444,12 @@ void setupWholeBodySolver(const SkeletonPtr& hubo)
 
   hubo->getIK()->setObjective(objective);
 
-  std::shared_ptr<dart::constraint::BalanceConstraint> balance
-      = std::make_shared<dart::constraint::BalanceConstraint>(hubo->getIK());
+  std::shared_ptr<dart::dynamics::BalanceConstraint> balance
+      = std::make_shared<dart::dynamics::BalanceConstraint>(hubo->getIK());
   hubo->getIK()->getProblem()->addEqConstraint(balance);
 
-  balance->setErrorMethod(dart::constraint::BalanceConstraint::FROM_CENTROID);
-  balance->setBalanceMethod(dart::constraint::BalanceConstraint::SHIFT_SUPPORT);
+  balance->setErrorMethod(dart::dynamics::BalanceConstraint::FROM_CENTROID);
+  balance->setBalanceMethod(dart::dynamics::BalanceConstraint::SHIFT_SUPPORT);
 
   solver->setNumMaxIterations(5);
 }

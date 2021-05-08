@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -101,6 +101,9 @@ public:
       const std::vector<std::pair<double, Eigen::Vector3d>>& spheres,
       int slices = 16,
       int stacks = 16) override;
+  void drawMultiSphereConvexHull(
+      const std::vector<std::pair<double, Eigen::Vector3d>>& spheres,
+      std::size_t subdivisions) override;
   void drawEllipsoid(const Eigen::Vector3d& _diameters) override;
   void drawCube(const Eigen::Vector3d& _size) override;
   void drawOpenCylinder(

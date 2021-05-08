@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -38,7 +38,7 @@
 namespace dart {
 namespace dynamics {
 
-// This preprocessor token should only be used by the unittest that is
+// This preprocessor token should only be used by the test that is
 // responsible for checking that the specialized routines are being used to
 // access specialized Aspects
 #ifdef DART_UNITTEST_SPECIALIZED_NODE_ACCESS

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -31,9 +31,6 @@
  */
 
 #include <dart/dart.hpp>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/urdf/urdf.hpp>
-#include <dart/utils/utils.hpp>
 
 #include "AtlasSimbiconEventHandler.hpp"
 #include "AtlasSimbiconWidget.hpp"
@@ -45,9 +42,9 @@ int main()
   dart::simulation::WorldPtr world(new dart::simulation::World);
 
   // Load ground and Atlas robot and add them to the world
-  dart::utils::DartLoader urdfLoader;
+  dart::io::DartLoader urdfLoader;
   auto ground = urdfLoader.parseSkeleton("dart://sample/sdf/atlas/ground.urdf");
-  auto atlas = dart::utils::SdfParser::readSkeleton(
+  auto atlas = dart::io::SdfParser::readSkeleton(
       "dart://sample/sdf/atlas/atlas_v3_no_head.sdf");
   world->addSkeleton(ground);
   world->addSkeleton(atlas);

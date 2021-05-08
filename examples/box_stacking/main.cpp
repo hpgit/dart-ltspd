@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -34,8 +34,6 @@
 
 #include <dart/dart.hpp>
 #include <dart/external/imgui/imgui.h>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/utils.hpp>
 
 using namespace dart;
 
@@ -354,25 +352,25 @@ protected:
     {
       // auto solver
       //     =
-      //     std::make_unique<constraint::SequentialImpulseConstraintSolver>(
+      //     std::make_unique<dynamics::SequentialImpulseConstraintSolver>(
       //         mWorld->getTimeStep());
-      auto lcpSolver = std::make_shared<constraint::DantzigBoxedLcpSolver>();
+      auto lcpSolver = std::make_shared<dynamics::DantzigBoxedLcpSolver>();
       auto solver
-          = std::make_unique<constraint::BoxedLcpConstraintSolver>(lcpSolver);
+          = std::make_unique<dynamics::BoxedLcpConstraintSolver>(lcpSolver);
       mWorld->setConstraintSolver(std::move(solver));
     }
     else if (solverType == 1)
     {
-      auto lcpSolver = std::make_shared<constraint::DantzigBoxedLcpSolver>();
+      auto lcpSolver = std::make_shared<dynamics::DantzigBoxedLcpSolver>();
       auto solver
-          = std::make_unique<constraint::BoxedLcpConstraintSolver>(lcpSolver);
+          = std::make_unique<dynamics::BoxedLcpConstraintSolver>(lcpSolver);
       mWorld->setConstraintSolver(std::move(solver));
     }
     else if (solverType == 2)
     {
-      auto lcpSolver = std::make_shared<constraint::PgsBoxedLcpSolver>();
+      auto lcpSolver = std::make_shared<dynamics::PgsBoxedLcpSolver>();
       auto solver
-          = std::make_unique<constraint::BoxedLcpConstraintSolver>(lcpSolver);
+          = std::make_unique<dynamics::BoxedLcpConstraintSolver>(lcpSolver);
       mWorld->setConstraintSolver(std::move(solver));
     }
     else

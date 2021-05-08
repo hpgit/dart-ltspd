@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -39,7 +39,6 @@
 #  include "Controller.hpp"
 
 #  include <dart/dart.hpp>
-#  include <dart/gui/gui.hpp>
 
 class MyWindow : public dart::gui::glut::SimWindow
 {
@@ -70,7 +69,7 @@ public:
 private:
   Eigen::Vector3d mForce;
   Controller* mController;
-  dart::constraint::WeldJointConstraintPtr mWeldJoint;
+  dart::dynamics::WeldJointConstraintPtr mWeldJoint;
   int mImpulseDuration;
   bool mHarnessOn;
 };
@@ -81,11 +80,11 @@ private:
 #include <stdarg.h>
 #include "Controller.hpp"
 #include "dynamics/SkeletonDynamics.hpp"
-#include "integration/EulerIntegrator.hpp"
-#include "integration/RK4Integrator.hpp"
+#include "math/EulerIntegrator.hpp"
+#include "math/RK4Integrator.hpp"
 #include "yui/Win3D.hpp"
 
-class MyWindow : public yui::Win3D, public integration::IntegrableSystem {
+class MyWindow : public yui::Win3D, public math::IntegrableSystem {
 public:
     //    MyWindow(dynamics::SkeletonDynamics* _m1, dynamics::SkeletonDynamics*
 _m2) MyWindow(dynamics::SkeletonDynamics* _mList = 0, ...): Win3D() {
@@ -134,7 +133,7 @@ dynamics::SkeletonDynamics*); if(skel) mSkels.push_back(skel); else break;
     virtual void keyboard(unsigned char key, int x, int y);
     virtual void displayTimer(int _val);
 
-    // Needed for integration
+    // Needed for math
     virtual Eigen::VectorXd getState();
     virtual Eigen::VectorXd evalDeriv();
     virtual void setState(const Eigen::VectorXd &state);
@@ -145,8 +144,8 @@ dynamics::SkeletonDynamics*); if(skel) mSkels.push_back(skel); else break;
     int mPlayFrame;
     bool mPlay;
     bool mShowMarkers;
-    integration::EulerIntegrator mIntegrator;
-    //    integration::RK4Integrator mIntegrator;
+    math::EulerIntegrator mIntegrator;
+    //    math::RK4Integrator mIntegrator;
     std::vector<Eigen::VectorXd> mBakedStates;
 
     std::vector<dynamics::SkeletonDynamics*> mSkels;

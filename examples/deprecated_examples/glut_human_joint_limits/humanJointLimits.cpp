@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -31,18 +31,17 @@
  */
 
 #include <cmath>
-#include <dart/collision/bullet/bullet.hpp>
-#include <dart/collision/ode/ode.hpp>
+#include <dart/dynamics/dynamics.hpp>
+#include <dart/dynamics/dynamics.hpp>
 #include <dart/dart.hpp>
-#include <dart/gui/gui.hpp>
-#include <dart/utils/utils.hpp>
+#include <dart/io/io.hpp>
 #include "HumanArmJointLimitConstraint.hpp"
 #include "HumanLegJointLimitConstraint.hpp"
 
 using namespace dart::dynamics;
 using namespace dart::simulation;
 using namespace dart;
-using namespace utils;
+using namespace io;
 
 class MyWindow : public dart::gui::glut::SimWindow
 {

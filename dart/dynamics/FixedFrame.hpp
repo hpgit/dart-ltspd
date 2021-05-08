@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -45,6 +45,7 @@ namespace dynamics {
 /// zero relative acceleration. It does not move within its parent Frame after
 /// its relative transform is set. However, classes that inherit the FixedFrame
 /// class may alter its relative transform or change what its parent Frame is.
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_BEGIN
 class FixedFrame
   : public virtual Frame,
     public virtual common::VersionCounter,
@@ -95,6 +96,7 @@ public:
   // To get byte-aligned Eigen vectors
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_END
 
 } // namespace dynamics
 } // namespace dart

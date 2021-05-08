@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -306,7 +306,7 @@ void HumanArmJointLimitConstraint::update()
 
 //==============================================================================
 void HumanArmJointLimitConstraint::getInformation(
-    constraint::ConstraintInfo* lcp)
+    dynamics::ConstraintInfo* lcp)
 {
   // if non-active, should not call getInfo()
   assert(isActive());

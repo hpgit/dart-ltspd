@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -35,7 +35,7 @@
 
 #include "dart/config.hpp"
 
-#if HAVE_OCTOMAP
+#if DART_HAVE_OCTOMAP
 
 #  include <osg/MatrixTransform>
 #  include <osg/ShapeDrawable>
@@ -78,6 +78,6 @@ protected:
 } // namespace gui
 } // namespace dart
 
-#endif // HAVE_OCTOMAP
+#endif // DART_HAVE_OCTOMAP
 
 #endif // DART_GUI_OSG_RENDER_VOXELGRIDSHAPENODE_HPP_

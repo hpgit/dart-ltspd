@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -41,6 +41,7 @@ namespace python {
 void Contact(py::module& sm);
 
 void CollisionFilter(py::module& sm);
+void CollisionObject(py::module& sm);
 void CollisionOption(py::module& sm);
 void CollisionResult(py::module& sm);
 
@@ -58,17 +59,15 @@ void CollisionGroup(py::module& sm);
 void FCLCollisionGroup(py::module& sm);
 void DARTCollisionGroup(py::module& sm);
 
-void CollisionObject(py::module& sm);
-
-#if HAVE_BULLET
+#if DART_HAVE_BULLET
 void BulletCollisionDetector(py::module& sm);
 void BulletCollisionGroup(py::module& sm);
-#endif // HAVE_BULLET
+#endif // DART_HAVE_BULLET
 
-#if HAVE_ODE
+#if DART_HAVE_ODE
 void OdeCollisionDetector(py::module& sm);
 void OdeCollisionGroup(py::module& sm);
-#endif // HAVE_ODE
+#endif // DART_HAVE_ODE
 
 void dart_collision(py::module& m)
 {
@@ -77,6 +76,7 @@ void dart_collision(py::module& m)
   Contact(sm);
 
   CollisionFilter(sm);
+  CollisionObject(sm);
   CollisionOption(sm);
   CollisionResult(sm);
 
@@ -94,17 +94,15 @@ void dart_collision(py::module& m)
   FCLCollisionGroup(sm);
   DARTCollisionGroup(sm);
 
-  CollisionObject(sm);
-
-#if HAVE_BULLET
+#if DART_HAVE_BULLET
   BulletCollisionDetector(sm);
   BulletCollisionGroup(sm);
-#endif // HAVE_BULLET
+#endif // DART_HAVE_BULLET
 
-#if HAVE_ODE
+#if DART_HAVE_ODE
   OdeCollisionDetector(sm);
   OdeCollisionGroup(sm);
-#endif // HAVE_ODE
+#endif // DART_HAVE_ODE
 }
 
 } // namespace python
