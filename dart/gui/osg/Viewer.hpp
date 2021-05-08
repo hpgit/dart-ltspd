@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -42,6 +42,7 @@
 
 #include <Eigen/Core>
 
+#include "dart/common/ClassWithVirtualBase.hpp"
 #include "dart/common/Subject.hpp"
 
 namespace dart {
@@ -71,6 +72,7 @@ class BodyNodeDnD;
 class Viewer;
 class SaveScreen;
 
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_BEGIN
 class ViewerAttachment : public virtual ::osg::Group
 {
 public:
@@ -388,6 +390,7 @@ protected:
   /// Map from BodyNode ptrs to BodyNodeDnD ptrs
   std::map<dart::dynamics::BodyNode*, BodyNodeDnD*> mBodyNodeDnDMap;
 };
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_END
 
 } // namespace osg
 } // namespace gui

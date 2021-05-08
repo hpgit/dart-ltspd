@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -34,14 +34,11 @@
 #define DART_COMMON_DETAIL_MEMORY_IMPL_HPP_
 
 #include <memory>
-#include <Eigen/Core>
-#include "dart/config.hpp"
 
-#if EIGEN_VERSION_AT_LEAST(3, 2, 1) && EIGEN_VERSION_AT_MOST(3, 2, 8)
-#  include "dart/common/detail/AlignedAllocator.hpp"
-#else
-#  include <Eigen/StdVector>
-#endif
+#include <Eigen/Core>
+#include <Eigen/StdVector>
+
+#include "dart/config.hpp"
 
 namespace dart {
 namespace common {
@@ -52,14 +49,8 @@ std::shared_ptr<_Tp> make_aligned_shared(_Args&&... __args)
 {
   using _Tp_nc = typename std::remove_const<_Tp>::type;
 
-#if EIGEN_VERSION_AT_LEAST(3, 2, 1) && EIGEN_VERSION_AT_MOST(3, 2, 8)
-  return std::allocate_shared<_Tp>(
-      detail::aligned_allocator_cpp11<_Tp_nc>(),
-      std::forward<_Args>(__args)...);
-#else
   return std::allocate_shared<_Tp>(
       Eigen::aligned_allocator<_Tp_nc>(), std::forward<_Args>(__args)...);
-#endif // EIGEN_VERSION_AT_LEAST(3,2,1) && EIGEN_VERSION_AT_MOST(3,2,8)
 }
 
 //==============================================================================

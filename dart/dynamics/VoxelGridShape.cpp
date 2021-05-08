@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -32,7 +32,7 @@
 
 #include "dart/dynamics/VoxelGridShape.hpp"
 
-#if HAVE_OCTOMAP
+#if DART_HAVE_OCTOMAP
 
 #  include "dart/common/Console.hpp"
 #  include "dart/math/Helpers.hpp"
@@ -79,19 +79,20 @@ octomap::pose6d toPose6d(const Eigen::Isometry3d& frame)
 //==============================================================================
 VoxelGridShape::VoxelGridShape(double resolution) : Shape()
 {
-  setOctree(fcl_make_shared<octomap::OcTree>(resolution));
+  setOctree(std::make_shared<octomap::OcTree>(resolution));
 
   mVariance = DYNAMIC_ELEMENTS;
 }
 
 //==============================================================================
-VoxelGridShape::VoxelGridShape(fcl_shared_ptr<octomap::OcTree> octree) : Shape()
+VoxelGridShape::VoxelGridShape(std::shared_ptr<octomap::OcTree> octree)
+  : Shape()
 {
   if (!octree)
   {
     dtwarn << "[VoxelGridShape] Attempting to assign null octree. Creating an "
            << "empty octree with resolution 0.01 instead.\n";
-    setOctree(fcl_make_shared<octomap::OcTree>(0.01));
+    setOctree(std::make_shared<octomap::OcTree>(0.01));
     return;
   }
 
@@ -112,7 +113,7 @@ const std::string& VoxelGridShape::getStaticType()
 }
 
 //==============================================================================
-void VoxelGridShape::setOctree(fcl_shared_ptr<octomap::OcTree> octree)
+void VoxelGridShape::setOctree(std::shared_ptr<octomap::OcTree> octree)
 {
   if (!octree)
   {
@@ -134,13 +135,13 @@ void VoxelGridShape::setOctree(fcl_shared_ptr<octomap::OcTree> octree)
 }
 
 //==============================================================================
-fcl_shared_ptr<octomap::OcTree> VoxelGridShape::getOctree()
+std::shared_ptr<octomap::OcTree> VoxelGridShape::getOctree()
 {
   return mOctree;
 }
 
 //==============================================================================
-fcl_shared_ptr<const octomap::OcTree> VoxelGridShape::getOctree() const
+std::shared_ptr<const octomap::OcTree> VoxelGridShape::getOctree() const
 {
   return mOctree;
 }
@@ -233,4 +234,4 @@ void VoxelGridShape::updateVolume() const
 } // namespace dynamics
 } // namespace dart
 
-#endif // HAVE_OCTOMAP
+#endif // DART_HAVE_OCTOMAP

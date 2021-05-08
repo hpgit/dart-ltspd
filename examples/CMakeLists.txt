@@ -1,4 +1,12 @@
-cmake_minimum_required(VERSION 3.5.1)
+# Copyright (c) 2011-2021, The DART development contributors
+# All rights reserved.
+#
+# The list of contributors can be found at:
+#   https://github.com/dartsim/dart/blob/main/LICENSE
+#
+# This file is provided under the "BSD-style" License
+
+cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 
 project(dart-examples)
 
@@ -17,9 +25,10 @@ add_subdirectory(heightmap)
 add_subdirectory(hubo_puppet)
 add_subdirectory(imgui)
 add_subdirectory(operational_space_control)
-if(HAVE_OCTOMAP)
+if(DART_HAVE_OCTOMAP)
   add_subdirectory(point_cloud)
 endif()
+add_subdirectory(rigid_shapes)
 add_subdirectory(soft_bodies)
 add_subdirectory(tinkertoy)
 add_subdirectory(wam_ikfast)

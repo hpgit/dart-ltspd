@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -75,6 +75,7 @@ private:
 ///
 /// In most cases, when creating your own custom Node class, you will also want
 /// to inherit from AccessoryNode using CRTP.
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_BEGIN
 class Node : public virtual common::Subject,
              public virtual common::VersionCounter
 {
@@ -226,6 +227,7 @@ protected:
   /// Index of this Node within its tree
   std::size_t mIndexInTree;
 };
+DART_DECLARE_CLASS_WITH_VIRTUAL_BASE_END
 
 //==============================================================================
 /// AccessoryNode provides an interface for Nodes to get their index within the

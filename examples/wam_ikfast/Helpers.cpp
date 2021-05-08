@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -34,8 +34,6 @@
 
 #include "Helpers.hpp"
 
-#include <dart/utils/urdf/urdf.hpp>
-
 //==============================================================================
 dart::dynamics::SkeletonPtr createGround()
 {
@@ -65,7 +63,7 @@ dart::dynamics::SkeletonPtr createGround()
 //==============================================================================
 dart::dynamics::SkeletonPtr createWam()
 {
-  dart::utils::DartLoader urdfParser;
+  dart::io::DartLoader urdfParser;
   urdfParser.addPackageDirectory(
       "herb_description", DART_DATA_PATH "/urdf/wam");
   dart::dynamics::SkeletonPtr wam

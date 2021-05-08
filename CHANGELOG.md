@@ -1,6 +1,49 @@
+## DART 7
+
+### [DART 7.0.0 (TBD)](https://github.com/dartsim/dart/milestone/18?closed=1)
+
+* API Breaking Changes
+
+  * Increased required minimum versions to CMake 3.10.2 and C++17: [#1560](https://github.com/dartsim/dart/pull/1560)
+  * Dropped supporting FCL < 0.5.0: [#1568](https://github.com/dartsim/dart/pull/1568)
+  * Merged namespaces `lcpsolver` and `integration` into `math`: [#1569](https://github.com/dartsim/dart/pull/1569)
+  * Renamed namespace `optimizer` to `optimization`: [#1570](https://github.com/dartsim/dart/pull/1570)
+  * Merged namespace `constraint` into `dynamics`: [#1571](https://github.com/dartsim/dart/pull/1571)
+  * Renamed namespace `utils` to `io: [#1572](https://github.com/dartsim/dart/pull/1572)
+  * Increased required minimum version of Eigen to 3.3.4: [#1573](https://github.com/dartsim/dart/pull/1573)
+
+* GUI
+
+  * Upgraded ImGui to 1.82: [#1567](https://github.com/dartsim/dart/pull/1567)
+
 ## DART 6
 
-### [DART 6.10.0 (20XX-XX-XX)](https://github.com/dartsim/dart/milestone/58?closed=1)
+### [DART 6.11.0 (TBD)](https://github.com/dartsim/dart/milestone/64?closed=1)
+
+* Math
+
+  * Added `Mesh`, `TriMesh`, and `Icosphere` classes: [#1579](https://github.com/dartsim/dart/pull/1579)
+
+* GUI
+
+  * Fixed incorrect MultiSphereConvexHull rendering: [#1579](https://github.com/dartsim/dart/pull/1579)
+
+### [DART 6.10.1 (2021-04-19)](https://github.com/dartsim/dart/milestone/65?closed=1)
+
+* Dynamics
+
+  * Fixed inertia calculation of CapsuleShape: [#1561](https://github.com/dartsim/dart/pull/1561)
+
+* GUI
+
+  * Changed to protect OpenGL attributes shared by ImGui and OSG: [#1558](https://github.com/dartsim/dart/pull/1558)
+  * Changed to set backface culling by default: [#1559](https://github.com/dartsim/dart/pull/1559)
+
+* dartpy
+
+  * Added Python binding for BodyNode::getBodyForce(): [#1563](https://github.com/dartsim/dart/pull/1563)
+
+### [DART 6.10.0 (2021-04-09)](https://github.com/dartsim/dart/milestone/58?closed=1)
 
 * Common
 
@@ -17,6 +60,7 @@
 
   * Added IkFast parameter accessors to IkFast class: [#1396](https://github.com/dartsim/dart/pull/1396)
   * Changed IkFast to wrap IK solutions into the joint limits for RevoluteJoint: [#1452](https://github.com/dartsim/dart/pull/1452)
+  * Added option to specify reference frame of TaskSpaceRegion: [#1548](https://github.com/dartsim/dart/pull/1548)
 
 * Dynamics
 
@@ -29,6 +73,8 @@
   * Allowed to set friction direction per ShapeFrame: [#1427](https://github.com/dartsim/dart/pull/1427)
   * Fixed incorrect vector resizing in BoxedLcpConstraintSolver: [#1459](https://github.com/dartsim/dart/pull/1459)
   * Changed to increment BodyNode version when it's being removed from Skeleton: [#1489](https://github.com/dartsim/dart/pull/1489)
+  * Changed to print warning only once from BulletCollisionDetector::collide/distance: [#1546](https://github.com/dartsim/dart/pull/1546)
+  * Added force dependent slip: [#1505](https://github.com/dartsim/dart/pull/1505)
 
 * GUI
 
@@ -70,6 +116,8 @@
   * Added pybind/eigen.h to DistanceResult.cpp for read/write of eigen types: [#1480](https://github.com/dartsim/dart/pull/1480)
   * Added bindings for adding ShapeFrames to CollisionGroup: [#1490](https://github.com/dartsim/dart/pull/1490)
   * Changed dartpy install command to make install-dartpy: [#1503](https://github.com/dartsim/dart/pull/1503)
+  * Added bindings for CollisionFilter, CollisionGroup, and Node: [#1545](https://github.com/dartsim/dart/pull/1545)
+  * Added bindings for TaskSpaceRegion: [#1550](https://github.com/dartsim/dart/pull/1550)
 
 * Build and testing
 
@@ -83,10 +131,30 @@
   * Removed gccfilter: [#1464](https://github.com/dartsim/dart/pull/1464)
   * Allowed to set CMAKE_INSTALL_PREFIX on Windows: [#1478](https://github.com/dartsim/dart/pull/1478)
   * Enforced to use OpenSceneGraph 3.7.0 or greater on macOS Catalina: [#1479](https://github.com/dartsim/dart/pull/1479)
+  * Fixed compatibility with clang-cl: [#1509](https://github.com/dartsim/dart/pull/1509)
+  * Fixed MSVC linking for assimp and fcl: [#1510](https://github.com/dartsim/dart/pull/1510)
+  * Fixed AspectWithState-relate compile error on Windows: [#1528](https://github.com/dartsim/dart/pull/1528)
+  * Made `dart.pc` relocatable: [#1529](https://github.com/dartsim/dart/pull/1529)
+  * Added CI for multiple Linux platforms: arm64 and ppc64le: [#1531](https://github.com/dartsim/dart/pull/1531)
+  * Fixed Aspect/Composite-relate tests on Windows/MSVC: [#1541](https://github.com/dartsim/dart/pull/1541), [#1542](https://github.com/dartsim/dart/pull/1542)
+  * Added `DART_SKIP_<dep>`_advanced option: [#1529](https://github.com/dartsim/dart/pull/1529)
+  * Replaced OpenGL dependency variables with targets: [#1552](https://github.com/dartsim/dart/pull/1552)
 
 * Documentation
 
   * Updated tutorial documentation and code to reflect new APIs: [#1481](https://github.com/dartsim/dart/pull/1481)
+
+### [DART 6.9.5 (2020-10-17)](https://github.com/dartsim/dart/milestone/63?closed=1)
+
+* Optimization
+
+  * Added Ipopt >= 3.13 support: [#1506](https://github.com/dartsim/dart/pull/1506)
+
+### [DART 6.9.4 (2020-08-30)](https://github.com/dartsim/dart/milestone/62?closed=1)
+
+* Build
+
+  * Added support new if() IN_LIST operator in DARTConfig.cmake (6.9 backport): [#1494](https://github.com/dartsim/dart/pull/1494)
 
 ### [DART 6.9.3 (2020-08-26)](https://github.com/dartsim/dart/milestone/61?closed=1)
 

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -178,7 +178,52 @@ DART_DYNAMICS_MAKE_NODEPTR(ShapeNode)
 
 DART_DYNAMICS_MAKE_IK_PTR(InverseKinematics)
 
+//-----------------------------------------------------------------------------
+// Constraints Smart Pointers
+//-----------------------------------------------------------------------------
+
+DART_COMMON_DECLARE_SMART_POINTERS(ConstraintSolver)
+
+DART_COMMON_DECLARE_SHARED_WEAK(ConstrainedGroup)
+
+DART_COMMON_DECLARE_SHARED_WEAK(ConstraintBase)
+DART_COMMON_DECLARE_SHARED_WEAK(ClosedLoopConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(ContactConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(SoftContactConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(JointLimitConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(ServoMotorConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(MimicMotorConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(JointCoulombFrictionConstraint)
+
+DART_COMMON_DECLARE_SHARED_WEAK(LCPSolver)
+DART_COMMON_DECLARE_SHARED_WEAK(BoxedLcpSolver)
+DART_COMMON_DECLARE_SHARED_WEAK(PgsBoxedLcpSolver)
+DART_COMMON_DECLARE_SHARED_WEAK(PsorBoxedLcpSolver)
+DART_COMMON_DECLARE_SHARED_WEAK(JacobiBoxedLcpSolver)
+
+DART_COMMON_DECLARE_SHARED_WEAK(JointConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(BallJointConstraint)
+DART_COMMON_DECLARE_SHARED_WEAK(WeldJointConstraint)
+
+DART_COMMON_DECLARE_SHARED_WEAK(BalanceConstraint)
+
 } // namespace dynamics
+
+//-----------------------------------------------------------------------------
+// Collision
+//-----------------------------------------------------------------------------
+
+namespace collision {
+
+DART_COMMON_DECLARE_SHARED_WEAK(CollisionDetector)
+DART_COMMON_DECLARE_SHARED_WEAK(FCLCollisionDetector)
+DART_COMMON_DECLARE_SHARED_WEAK(DARTCollisionDetector)
+
+DART_COMMON_DECLARE_SHARED_WEAK(CollisionObject)
+DART_COMMON_DECLARE_SHARED_WEAK(CollisionGroup)
+
+} // namespace collision
+
 } // namespace dart
 
 #endif // DART_DYNAMICS_SMARTPOINTER_HPP_

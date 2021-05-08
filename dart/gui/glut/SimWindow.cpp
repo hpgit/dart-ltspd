@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -42,11 +42,11 @@
 #include <iostream>
 #include <string>
 
-#include "dart/collision/CollisionDetector.hpp"
-#include "dart/constraint/ConstraintSolver.hpp"
 #include "dart/dynamics/BoxShape.hpp"
 #include "dart/dynamics/CapsuleShape.hpp"
+#include "dart/dynamics/CollisionDetector.hpp"
 #include "dart/dynamics/ConeShape.hpp"
+#include "dart/dynamics/ConstraintSolver.hpp"
 #include "dart/dynamics/CylinderShape.hpp"
 #include "dart/dynamics/EllipsoidShape.hpp"
 #include "dart/dynamics/LineSegmentShape.hpp"
@@ -62,8 +62,8 @@
 #include "dart/gui/glut/GLUTFuncs.hpp"
 #include "dart/gui/glut/GraphWindow.hpp"
 #include "dart/gui/glut/LoadGlut.hpp"
+#include "dart/io/FileInfoWorld.hpp"
 #include "dart/simulation/World.hpp"
-#include "dart/utils/FileInfoWorld.hpp"
 
 namespace dart {
 namespace gui {
@@ -287,7 +287,7 @@ void SimWindow::saveWorld()
 {
   if (!mWorld)
     return;
-  dart::utils::FileInfoWorld worldFile;
+  dart::io::FileInfoWorld worldFile;
   worldFile.saveFile("tempWorld.txt", mWorld->getRecording());
 }
 
@@ -484,7 +484,7 @@ void SimWindow::drawShape(
   {
     const auto* multiSphere
         = static_cast<const MultiSphereConvexHullShape*>(shape);
-    mRI->drawMultiSphere(multiSphere->getSpheres());
+    mRI->drawMultiSphereConvexHull(multiSphere->getSpheres(), 3u);
   }
   else if (shape->is<MeshShape>())
   {

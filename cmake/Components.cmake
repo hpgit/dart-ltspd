@@ -26,7 +26,7 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-cmake_minimum_required(VERSION 3.5.1)
+cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 
 include(CMakeParseArguments)
 
@@ -36,11 +36,11 @@ function(initialize_component_helpers package_name)
   define_property(GLOBAL PROPERTY "${package_name}_INCLUDE_DIRS"
     BRIEF_DOCS "Global include directories used by all components."
     FULL_DOCS "Global include directories used by all components."
-    )
+  )
   define_property(GLOBAL PROPERTY "${package_name}_COMPONENTS"
     BRIEF_DOCS "List all known ${package_name} components."
     FULL_DOCS "List all known ${package_name} components."
-    )
+  )
 endfunction(initialize_component_helpers)
 
 #==============================================================================
@@ -72,7 +72,7 @@ function(add_component package_name component)
   install(EXPORT "${target}"
     FILE "${package_name}_${component}Targets.cmake"
     DESTINATION "${CONFIG_INSTALL_DIR}"
-    )
+  )
   # TODO(JS): It would be nice if we could check if ${target} has at least one
   # dependency target.
 
@@ -225,7 +225,7 @@ function(install_component_exports package_name)
     endforeach()
 
     configure_file(
-      "${CMAKE_SOURCE_DIR}/cmake/dart_Component.cmake.in"
+      "${DART_SOURCE_DIR}/cmake/dart_Component.cmake.in"
       "${output_path}"
       @ONLY)
 

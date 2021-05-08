@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -42,12 +42,12 @@
 #include <string>
 #include <vector>
 
-#include "dart/collision/CollisionGroup.hpp"
 #include "dart/common/Console.hpp"
-#include "dart/constraint/BoxedLcpConstraintSolver.hpp"
-#include "dart/constraint/ConstrainedGroup.hpp"
+#include "dart/dynamics/BoxedLcpConstraintSolver.hpp"
+#include "dart/dynamics/CollisionGroup.hpp"
+#include "dart/dynamics/ConstrainedGroup.hpp"
 #include "dart/dynamics/Skeleton.hpp"
-#include "dart/integration/SemiImplicitEulerIntegrator.hpp"
+#include "dart/math/SemiImplicitEulerIntegrator.hpp"
 
 namespace dart {
 namespace simulation {
@@ -72,7 +72,7 @@ World::World(const std::string& _name)
 {
   mIndices.push_back(0);
 
-  auto solver = std::make_unique<constraint::BoxedLcpConstraintSolver>();
+  auto solver = std::make_unique<dynamics::BoxedLcpConstraintSolver>();
   setConstraintSolver(std::move(solver));
 }
 
@@ -554,7 +554,7 @@ const collision::CollisionResult& World::getLastCollisionResult() const
 }
 
 //==============================================================================
-void World::setConstraintSolver(constraint::UniqueConstraintSolverPtr solver)
+void World::setConstraintSolver(dynamics::UniqueConstraintSolverPtr solver)
 {
   if (!solver)
   {
@@ -571,13 +571,13 @@ void World::setConstraintSolver(constraint::UniqueConstraintSolverPtr solver)
 }
 
 //==============================================================================
-constraint::ConstraintSolver* World::getConstraintSolver()
+dynamics::ConstraintSolver* World::getConstraintSolver()
 {
   return mConstraintSolver.get();
 }
 
 //==============================================================================
-const constraint::ConstraintSolver* World::getConstraintSolver() const
+const dynamics::ConstraintSolver* World::getConstraintSolver() const
 {
   return mConstraintSolver.get();
 }

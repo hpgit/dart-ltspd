@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -30,11 +30,8 @@
  *   POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <dart/collision/bullet/bullet.hpp>
 #include <dart/dart.hpp>
 #include <dart/external/imgui/imgui.h>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/utils.hpp>
 
 using namespace dart;
 
@@ -157,7 +154,7 @@ int main()
   using namespace math::suffixes;
 
   // Create a world from ant.xml
-  auto world = utils::MjcfParser::readWorld(
+  auto world = io::MjcfParser::readWorld(
       "dart://sample/mjcf/openai/robotics/fetch/pick_and_place.xml");
   assert(world);
   world->getConstraintSolver()->setCollisionDetector(
@@ -200,7 +197,7 @@ int main()
 
   // Reset the relative transform constraint of mocap object and fetch's EE
   auto weldJointConstraint
-      = std::dynamic_pointer_cast<constraint::WeldJointConstraint>(
+      = std::dynamic_pointer_cast<dynamics::WeldJointConstraint>(
           world->getConstraintSolver()->getConstraint(0));
   assert(weldJointConstraint);
   weldJointConstraint->setRelativeTransform(Eigen::Isometry3d::Identity());

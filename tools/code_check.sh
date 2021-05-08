@@ -5,13 +5,10 @@
 
 CHECK_DIRS="#../dart/collision\
             ../dart/common\
-            ../dart/constraint\
             #../dart/dynamics\
             #../dart/gui\
-            #../dart/integration\
-            #../dart/lcpsolver\
             #../dart/math\
-            #../dart/optimizer\
+            #../dart/optimization\
             #../dart/planning\
             #../dart/renderer\
             #../dart/simulation\

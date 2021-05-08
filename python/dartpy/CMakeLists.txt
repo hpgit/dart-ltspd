@@ -64,15 +64,18 @@ target_include_directories(${pybind_module}
 
 target_link_libraries(${pybind_module}
   PUBLIC
-    dart
-    dart-utils
-    dart-utils-urdf
-    dart-gui
-    dart-gui-osg
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-common
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-math
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-optimization
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-collision
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-dynamics
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-simulation
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-io
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-gui
     ${PYTHON_LIBRARIES}
 )
-if(TARGET dart-optimizer-nlopt)
-  target_link_libraries(${pybind_module} PUBLIC dart-optimizer-nlopt)
+if(TARGET dart-optimization-nlopt)
+  target_link_libraries(${pybind_module} PUBLIC dart-optimization-nlopt)
 endif()
 if(TARGET dart-collision-bullet)
   target_link_libraries(${pybind_module} PUBLIC dart-collision-bullet)
@@ -80,6 +83,9 @@ endif()
 if(TARGET dart-collision-ode)
   target_link_libraries(${pybind_module} PUBLIC dart-collision-ode)
 endif()
+
+# Remove debug postfix for dartpy
+set_target_properties(${pybind_module} PROPERTIES DEBUG_POSTFIX "")
 
 # Get the path to the bind module
 set(PYBIND_MODULE $<TARGET_FILE:${pybind_module}>)

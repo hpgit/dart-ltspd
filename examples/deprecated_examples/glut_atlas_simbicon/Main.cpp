@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -33,8 +33,6 @@
 #include <iostream>
 
 #include <dart/dart.hpp>
-#include <dart/utils/urdf/urdf.hpp>
-#include <dart/utils/utils.hpp>
 
 #include "Controller.hpp"
 #include "MyWindow.hpp"
@@ -45,7 +43,7 @@ using namespace dart::common;
 using namespace dart::math;
 using namespace dart::dynamics;
 using namespace dart::simulation;
-using namespace dart::utils;
+using namespace dart::io;
 
 int main(int argc, char* argv[])
 {

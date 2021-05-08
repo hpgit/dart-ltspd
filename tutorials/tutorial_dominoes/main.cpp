@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -31,7 +31,6 @@
  */
 
 #include <dart/dart.hpp>
-#include <dart/gui/gui.hpp>
 
 const double default_domino_height = 0.3;
 const double default_domino_width = 0.4 * default_domino_height;

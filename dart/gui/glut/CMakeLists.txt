@@ -1,20 +1,16 @@
-# Search all header and source files
-file(GLOB hdrs "*.hpp")
-file(GLOB srcs "*.cpp")
-dart_add_gui_headers(${hdrs} ${detail_hdrs})
-dart_add_gui_sources(${srcs} ${detail_srcs})
+# Copyright (c) 2011-2021, The DART development contributors
+# All rights reserved.
+#
+# The list of contributors can be found at:
+#   https://github.com/dartsim/dart/blob/main/LICENSE
+#
+# This file is provided under the "BSD-style" License
 
-# Generate header for this namespace
-dart_get_filename_components(header_names "gui_glut_headers headers" ${hdrs})
-dart_generate_include_header_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/glut.hpp"
-  "dart/gui/glut/"
-  ${header_names}
-)
-
-# Install
-install(
-  FILES ${hdrs} ${CMAKE_CURRENT_BINARY_DIR}/glut.hpp
-  DESTINATION include/dart/gui/glut
-  COMPONENT headers
+dart_add_component_sub_directory(
+  COMPONENT_DEPENDENCY_PACKAGES
+    GLUT
+  TARGET_LINK_LIBRARIES_PUBLIC
+    GLUT::GLUT
+  TARGET_LINK_LIBRARIES_PRIVATE
+    ${PROJECT_NAME}${DART_MAJOR_VERSION}-external-lodepng
 )

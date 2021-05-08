@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2011-2019, The DART development contributors
+ * Copyright (c) 2011-2021, The DART development contributors
  * All rights reserved.
  *
  * The list of contributors can be found at:
- *   https://github.com/dartsim/dart/blob/master/LICENSE
+ *   https://github.com/dartsim/dart/blob/main/LICENSE
  *
  * This file is provided under the following "BSD-style" License:
  *   Redistribution and use in source and binary forms, with or
@@ -31,19 +31,16 @@
  */
 
 #include <dart/dart.hpp>
-#include <dart/gui/osg/osg.hpp>
-#include <dart/utils/urdf/urdf.hpp>
-#include <dart/utils/utils.hpp>
 
 using namespace dart::common;
 using namespace dart::dynamics;
 using namespace dart::simulation;
-using namespace dart::utils;
+using namespace dart::io;
 using namespace dart::math;
 
 const double display_elevation = 0.05;
 
-class RelaxedPosture : public dart::optimizer::Function
+class RelaxedPosture : public dart::optimization::Function
 {
 public:
   RelaxedPosture(
@@ -303,7 +300,7 @@ public:
     mPosture = std::dynamic_pointer_cast<RelaxedPosture>(
         mAtlas->getIK(true)->getObjective());
 
-    mBalance = std::dynamic_pointer_cast<dart::constraint::BalanceConstraint>(
+    mBalance = std::dynamic_pointer_cast<dart::dynamics::BalanceConstraint>(
         mAtlas->getIK(true)->getProblem()->getEqConstraint(1));
 
     mOptimizationKey = 'r';
@@ -435,7 +432,7 @@ public:
 
         if (mBalance)
           mBalance->setErrorMethod(
-              dart::constraint::BalanceConstraint::OPTIMIZE_BALANCE);
+              dart::dynamics::BalanceConstraint::OPTIMIZE_BALANCE);
 
         return true;
       }
@@ -450,7 +447,7 @@ public:
 
         if (mBalance)
           mBalance->setErrorMethod(
-              dart::constraint::BalanceConstraint::FROM_CENTROID);
+              dart::dynamics::BalanceConstraint::FROM_CENTROID);
 
         return true;
       }
@@ -526,7 +523,7 @@ protected:
 
   std::shared_ptr<RelaxedPosture> mPosture;
 
-  std::shared_ptr<dart::constraint::BalanceConstraint> mBalance;
+  std::shared_ptr<dart::dynamics::BalanceConstraint> mBalance;
 
   char mOptimizationKey;
 
@@ -793,8 +790,8 @@ void setupEndEffectors(const SkeletonPtr& atlas)
 void setupWholeBodySolver(const SkeletonPtr& atlas)
 {
   // The default
-  std::shared_ptr<dart::optimizer::GradientDescentSolver> solver
-      = std::dynamic_pointer_cast<dart::optimizer::GradientDescentSolver>(
+  std::shared_ptr<dart::optimization::GradientDescentSolver> solver
+      = std::dynamic_pointer_cast<dart::optimization::GradientDescentSolver>(
           atlas->getIK(true)->getSolver());
   solver->setNumMaxIterations(10);
 
@@ -834,31 +831,31 @@ void setupWholeBodySolver(const SkeletonPtr& atlas)
       atlas->getPositions(), lower_posture, upper_posture, weights);
   atlas->getIK()->setObjective(objective);
 
-  std::shared_ptr<dart::constraint::BalanceConstraint> balance
-      = std::make_shared<dart::constraint::BalanceConstraint>(atlas->getIK());
+  std::shared_ptr<dart::dynamics::BalanceConstraint> balance
+      = std::make_shared<dart::dynamics::BalanceConstraint>(atlas->getIK());
   atlas->getIK()->getProblem()->addEqConstraint(balance);
 
   //  // Shift the center of mass towards the support polygon center while
   //  trying
   //  // to keep the support polygon where it is
-  //  balance->setErrorMethod(dart::constraint::BalanceConstraint::FROM_CENTROID);
-  //  balance->setBalanceMethod(dart::constraint::BalanceConstraint::SHIFT_COM);
+  //  balance->setErrorMethod(dart::dynamics::BalanceConstraint::FROM_CENTROID);
+  //  balance->setBalanceMethod(dart::dynamics::BalanceConstraint::SHIFT_COM);
 
   //  // Keep shifting the center of mass towards the center of the support
   //  // polygon, even if it is already inside. This is useful for trying to
   //  // optimize a stance
-  //  balance->setErrorMethod(dart::constraint::BalanceConstraint::OPTIMIZE_BALANCE);
-  //  balance->setBalanceMethod(dart::constraint::BalanceConstraint::SHIFT_COM);
+  //  balance->setErrorMethod(dart::dynamics::BalanceConstraint::OPTIMIZE_BALANCE);
+  //  balance->setBalanceMethod(dart::dynamics::BalanceConstraint::SHIFT_COM);
 
   //  // Try to leave the center of mass where it is while moving the support
   //  // polygon to be under the current center of mass location
-  balance->setErrorMethod(dart::constraint::BalanceConstraint::FROM_CENTROID);
-  balance->setBalanceMethod(dart::constraint::BalanceConstraint::SHIFT_SUPPORT);
+  balance->setErrorMethod(dart::dynamics::BalanceConstraint::FROM_CENTROID);
+  balance->setBalanceMethod(dart::dynamics::BalanceConstraint::SHIFT_SUPPORT);
 
   //  // Try to leave the center of mass where it is while moving the support
   //  // point that is closest to the center of mass
-  //  balance->setErrorMethod(dart::constraint::BalanceConstraint::FROM_EDGE);
-  //  balance->setBalanceMethod(dart::constraint::BalanceConstraint::SHIFT_SUPPORT);
+  //  balance->setErrorMethod(dart::dynamics::BalanceConstraint::FROM_EDGE);
+  //  balance->setBalanceMethod(dart::dynamics::BalanceConstraint::SHIFT_SUPPORT);
 
   // Note that using the FROM_EDGE error method is liable to leave the center of
   // mass visualization red even when the constraint was successfully solved.
